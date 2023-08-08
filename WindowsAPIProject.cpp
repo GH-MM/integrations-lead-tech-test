@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "WindowsAPIProject.h"
+using namespace std;
 
 #define MAX_LOADSTRING 100
 #define MIN_WINDOW_WIDTH 200;
@@ -28,6 +29,32 @@ int APIENTRY wWinMain( _In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
 	// TODO: Place code here.
+
+	
+
+	int main(); {
+		std::string text = "This App was launched at: ";
+		std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
+
+		// Get the current time
+		auto now = std::chrono::system_clock::now();
+		std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+		// Format the timestamp
+		char timestamp[20];
+		struct tm time_info;
+		localtime_s(&time_info, &now_time);
+		std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", &time_info);
+
+		// Write the timestamp and log message to the file
+		log_file << text << "[" << timestamp << "] " << std::endl;
+
+	/*----------------------------------------------------------------------------------------------------------------------------*/
+
+
+	}
+
+
 
 	// Initialize global strings
 	LoadStringW( hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING );

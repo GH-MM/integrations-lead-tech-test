@@ -1,0 +1,10 @@
+This is a log message
+This is a log message
+This is a log message
+This is a log message
+This is a log message
+[2023-08-08 03:35:24] This is a log message
+[2023-08-08 03:35:40] This is a log message
+This App was launched[2023-08-08 03:41:40] 
+This App was launched at: [2023-08-08 03:42:22] 
+This App was launched at: [2023-08-08 04:13:42] 
