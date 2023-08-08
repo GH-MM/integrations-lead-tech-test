@@ -1,4 +1,4 @@
-                                                                         PART 1: REVIEW OF CODE AND CHANGES. 
+<---------------------------------------------------- PART 1: REVIEW OF CODE AND CHANGES. ---------------------------------------------------------------------------->
 
 
 1. The developer could use "const" for unmodified strings, such as the title bar text and the window class name. 
@@ -55,4 +55,83 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
+}
+
+
+<-------------------------------------------------------------------------TASK 2.-------------------------------------------------------------------------->
+
+(I) lOGGING LOG FILE : In the absence of no log file initially, The program creates a logfile that logs a message and time stamp wenever the application is launched.
+
+I added the libraries below to the framework.h header 
+
+#include <chrono>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <string>
+
+
+int main(); {
+		std::string text = "This App was launched at: ";
+		std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
+
+		// Get the current time
+		auto now = std::chrono::system_clock::now();
+		std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+		// Format the timestamp
+		char timestamp[20];
+		struct tm time_info;
+		localtime_s(&time_info, &now_time);
+		std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", &time_info);
+
+		// Write the timestamp and log message to the file
+		log_file << text << "[" << timestamp << "] " << std::endl;
+
+	}
+
+  
+  
+  
+  
+  (ii) This functionality has a default size for the windows api project. The program bellow creates a config file. the default size of the window is stored into the file, On running the program, it checks for the stored size and sets this to the windows value. when the size is changes, it updates the size data in the config file.
+
+  BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+{
+	hInst = hInstance; // Store instance handle in our global variable
+
+	// Create a configuration file if it does not exist
+	string filename = "config.txt";
+	if (!std::ifstream(filename)) {
+		ofstream file(filename);
+		file << MIN_WINDOW_WIDTH << endl;
+		file << MIN_WINDOW_HEIGHT << endl;
+		file.close();
+	}
+
+	// Read the configuration file to get the initial size and position of the window
+	Config config;
+	std::ifstream file(filename);
+	if (file.is_open()) {
+		file >> config.width >> config.height >> config.x >> config.y;
+		file.close();
+	} else {
+		config.width = 800;
+		config.height = 600;
+		config.x = 0;
+		config.y = 0;
+	}
+
+	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+		config.x, config.y, config.width, config.height, nullptr, nullptr, hInstance, nullptr);
+
+	if (!hWnd)
+	{
+		return FALSE;
+	}
+
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
+
+	return TRUE;
 }

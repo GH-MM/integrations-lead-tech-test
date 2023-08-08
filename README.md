@@ -34,3 +34,10 @@ We will be looking for
 - If choosing to provide written feedback, please put it in a text document in the repo 
 
 We're eager to see you showcase your initiative and skills in your submission. Please get in touch if you need any help. Good luck with your test!
+
+<---------------------------------------------------------------->
+## Notes
+- I created separate branchs for each of the task.
+- I was able to complete task 1 and task 2 (i and ii).
+- You can check the program workspace for the `feedback.txt` file for details.
+
