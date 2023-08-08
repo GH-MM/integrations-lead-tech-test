@@ -1,0 +1,58 @@
+                                                                         PART 1: REVIEW OF CODE AND CHANGES. 
+
+
+1. The developer could use "const" for unmodified strings, such as the title bar text and the window class name. 
+This will help to prevent accidental modification of these strings. (Line 13 and 14 - WindowsAPIProject.cpp).
+
+ const szTitle[ MAX_LOADSTRING ];     // The title bar text
+ const szWindowClass[ MAX_LOADSTRING ];            // the main window class name
+
+
+
+
+2. The developer could use the "LoadMenu" function to load the menu resources instead of hard-coding the resource IDs. 
+This makes the code easier to maintain.It will load the menu resources and assign the menu to the main window. . (Line 98 to 114 - WindowsAPIProject.cpp)
+
+HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDC_LUCACLIENTLAUNCHER));
+SetMenu(hWnd, hMenu);
+
+HMENU LoadMenu(HINSTANCE hInstance, UINT nResourceID)
+        {
+              HMENU hMenu = LoadMenuW(hInstance, MAKEINTRESOURCE(nResourceID));
+              if (hMenu == NULL)
+              {
+                     // Error loading menu
+              }
+
+             return hMenu;
+        }
+
+
+
+
+3. The developer can use the "DestroyMenu" function to destroy the menu when the application is finished with it. 
+This will help to prevent memory leaks, and ensures that all of the memory associated with the menu is freed.(lINE 126-162)
+
+void DestroyMenu(HMENU hMenu)
+     {
+              if (hMenu != NULL)
+              {
+                  DestroyMenu(hMenu->hSubMenu);
+                  DestroyMenu(hMenu);
+              }
+     }
+
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+    case WM_DESTROY:
+        DestroyMenu(hMenu);
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return 0;
+}
